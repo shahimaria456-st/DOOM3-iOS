@@ -20,7 +20,7 @@ jobs:
           xcrun -sdk iphoneos PackageApplication -v build/Release-iphoneos/DOOM3-iOS.app -o $PWD/output/DOOM3-iOS.ipa
           
       - name: Upload IPA
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: DOOM3-iOS
           path: output/DOOM3-iOS.ipa
