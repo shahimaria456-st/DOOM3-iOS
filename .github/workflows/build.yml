@@ -1,0 +1,26 @@
+name: Build iOS IPA
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Xcode
+        run: sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+
+      - name: Build IPA
+        run: |
+          xcodebuild -scheme DOOM3-iOS -configuration Release -sdk iphoneos clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+          mkdir -p output
+          xcrun -sdk iphoneos PackageApplication -v build/Release-iphoneos/DOOM3-iOS.app -o $PWD/output/DOOM3-iOS.ipa
+          
+      - name: Upload IPA
+        uses: actions/upload-artifact@v3
+        with:
+          name: DOOM3-iOS
+          path: output/DOOM3-iOS.ipa
